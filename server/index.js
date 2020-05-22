@@ -7,13 +7,13 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  console.log('incoming connection', socket.id);
 
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
+  socket.on('disconnect', (socket) => {
+    console.log('client disconnected', socket.id);
   });
 });
 
 http.listen(3000, () => {
-  console.log('listening on *:3000');
+  console.log('Express on 3000');
 });
