@@ -6,11 +6,25 @@ app.get('/', (req, res) => {
   res.send('Hello world');
 });
 
+function parseId(socket) {
+  return `${socket.nickname} (${socket.id})`;
+}
+
 io.on('connection', (socket) => {
   console.log('incoming connection', socket.id);
 
-  socket.on('disconnect', (socket) => {
-    console.log('client disconnected', socket.id);
+  socket.on('register', (nickname) => {
+    socket.nickname = nickname;
+    console.log('register', socket.nickname);
+  });
+
+  socket.on('join', (room) => {
+    socket.join(room);
+    console.log(`${parseId(socket)} has joined ${room}`);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('client disconnected', socket.id, socket.nickname);
   });
 });
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RoomService } from '../room.service';
 
 @Component({
   selector: 'app-main',
@@ -8,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 export class MainComponent implements OnInit {
   value;
 
-  constructor() { }
+  constructor(private roomService: RoomService) { }
 
   ngOnInit(): void {
   }
 
+  onCreate() {
+    this.roomService.connect(this.value);
+    this.roomService.join(this.roomService.generateRoom());
+  }
 }
