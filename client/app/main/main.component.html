@@ -1,1 +1,35 @@
-<p>main works!</p>
+<p>Introduction text comes here</p>
+
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around center" class="room-options">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Create room</mat-card-title>
+      <mat-card-subtitle>You can invite your mates to join your room</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+      <mat-form-field>
+        <mat-label>Your name</mat-label>
+        <input matInput type="text" [(ngModel)]="value">
+      </mat-form-field>
+
+      <button mat-button>Create</button>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Join room</mat-card-title>
+      <mat-card-subtitle>You can join a room if you have its ID</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+      <mat-form-field>
+        <mat-label>Room ID</mat-label>
+        <input matInput type="text" [(ngModel)]="value">
+      </mat-form-field>
+
+      <button mat-button>Join</button>
+    </mat-card-content>
+  </mat-card>
+</div>
