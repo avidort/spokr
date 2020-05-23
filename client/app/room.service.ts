@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
+import { Store } from '@ngrx/store';
+import { AppState } from './app.state';
+import { RoomActions } from './actions/room.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +11,7 @@ export class RoomService {
   private socket: any;
   public clients = [];
 
-  constructor() {
+  constructor(private store: Store<AppState>) {
   }
 
   public generateRoom(): string {
@@ -30,6 +33,7 @@ export class RoomService {
   private setupEvents() {
     this.socket.on('connected-clients', (clients) => {
       console.log('connected-clients', clients);
+      this.store.dispatch(RoomActions.setClients(clients));
     });
   }
 }

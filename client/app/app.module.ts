@@ -7,9 +7,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { StoreModule } from '@ngrx/store';
+import { storeLogger } from 'ngrx-store-logger';
+import { reducers } from './reducers/index';
 
 import { MainComponent } from './main/main.component';
 import { RoomComponent } from './room/room.component';
+
+// ngrx/store logger factory (based on redux-logger)
+export function logger(reducer) {
+  return storeLogger()(reducer);
+}
 
 @NgModule({
   declarations: [
@@ -23,7 +31,10 @@ import { RoomComponent } from './room/room.component';
     BrowserAnimationsModule,
     FormsModule,
     MaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers: [logger] // TODO: Remove logger to disable (in case of production-mode)
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
