@@ -12,16 +12,20 @@ function parseId(socket) {
   return `${nicknameMap[socket.id]} (${socket.id})`;
 }
 
-function emitClients() {
-  io.clients((e, clients) => {
+function emitClients(roomId) {
+  io.in(roomId).clients((e, clients) => {
     const connectedClients = clients.map((_) => ({
       id: _,
       nickname: nicknameMap[_]
     }));
 
-    io.emit('connected-clients', connectedClients);
+    io.to(roomId).emit('connected-clients', connectedClients);
     console.log(connectedClients);
   });
+}
+
+function getClientRooms(socket) {
+  return Object.keys(socket.rooms).filter((_) => _ !== socket.id);
 }
 
 io.on('connection', (socket) => {
@@ -30,17 +34,21 @@ io.on('connection', (socket) => {
   socket.on('register', (nickname) => {
     nicknameMap[socket.id] = nickname;
     console.log('register', nickname);
-    emitClients();
   });
 
   socket.on('join', (room) => {
     socket.join(room);
     console.log(`${parseId(socket)} has joined ${room}`);
+    emitClients(room);
   });
 
-  socket.on('disconnect', () => {
-    console.log('Client disconnected', parseId(socket));
-    emitClients();
+  socket.on('disconnecting', () => {
+    console.log('Client disconnecting', parseId(socket));
+
+    const room = getClientRooms(socket)[0];
+    if (room) {
+      emitClients(room);
+    }
   });
 });
 

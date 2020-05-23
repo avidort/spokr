@@ -13,6 +13,7 @@ import { reducers } from './reducers/index';
 
 import { MainComponent } from './main/main.component';
 import { RoomComponent } from './room/room.component';
+import { JoinRoomComponent } from './room/join-room/join-room.component';
 
 // ngrx/store logger factory (based on redux-logger)
 export function logger(reducer) {
@@ -23,7 +24,8 @@ export function logger(reducer) {
   declarations: [
     AppComponent,
     MainComponent,
-    RoomComponent
+    RoomComponent,
+    JoinRoomComponent
   ],
   imports: [
     BrowserModule,

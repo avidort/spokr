@@ -1,5 +1,9 @@
-<p>Inside room {{roomId}}</p>
+<app-join-room *ngIf="!joined" [roomId]="roomId"></app-join-room>
 
-<ul>
-  <li *ngFor="let client of clients$ | async">{{client.nickname}} ({{client.id}})</li>
-</ul>
+<div *ngIf="joined">
+  <p>Inside room {{roomId}}</p>
+
+  <ul>
+    <li *ngFor="let client of clients$ | async">{{client.nickname}} ({{client.id}})</li>
+  </ul>
+</div>

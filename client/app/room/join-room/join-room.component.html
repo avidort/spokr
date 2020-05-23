@@ -1,0 +1,17 @@
+<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around center" class="join-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Join room</mat-card-title>
+      <mat-card-subtitle>You have been invited to join this room</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+      <mat-form-field>
+        <mat-label>Your name</mat-label>
+        <input matInput type="text" [(ngModel)]="name">
+      </mat-form-field>
+
+      <button mat-button (click)="onJoin()">Join</button>
+    </mat-card-content>
+  </mat-card>
+</div>

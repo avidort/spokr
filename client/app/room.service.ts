@@ -9,7 +9,6 @@ import { RoomActions } from './actions/room.actions';
 })
 export class RoomService {
   private socket: any;
-  public clients = [];
 
   constructor(private store: Store<AppState>) {
   }
@@ -32,7 +31,6 @@ export class RoomService {
 
   private setupEvents() {
     this.socket.on('connected-clients', (clients) => {
-      console.log('connected-clients', clients);
       this.store.dispatch(RoomActions.setClients(clients));
     });
   }

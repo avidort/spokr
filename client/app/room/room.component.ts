@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
+import { IClient } from 'models/room.models';
 
 @Component({
   selector: 'app-room',
@@ -10,10 +11,13 @@ import { AppState } from '../app.state';
   styleUrls: ['./room.component.scss']
 })
 export class RoomComponent implements OnInit {
+  public clients$: Observable<IClient[]>;
   public roomId: string;
-  public clients$: Observable<any>;
 
-  constructor(private route: ActivatedRoute,
+  joined;
+
+  constructor(private router: Router,
+    private route: ActivatedRoute,
     private store: Store<AppState>) {
     this.clients$ = this.store.select((store) => store.room.clients);
   }
