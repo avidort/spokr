@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from './app.state';
 import { RoomActions } from './actions/room.actions';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,8 @@ import { RoomActions } from './actions/room.actions';
 export class RoomService {
   private socket: any;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private router: Router,
+    private store: Store<AppState>) {
   }
 
   public generateRoom(): string {
@@ -25,7 +27,9 @@ export class RoomService {
   }
 
   public join(roomId: string): void {
-    this.socket.emit('join', roomId);
+    this.socket.emit('join', roomId); // Emit 'join' event to the server
+    this.store.dispatch(RoomActions.setJoined(roomId)); // Update state with 'joinedRoom'
+    this.router.navigate(['room', roomId]); // Navigate into the said room
     console.log(`Joined room ${roomId}`);
   }
 

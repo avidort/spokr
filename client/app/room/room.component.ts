@@ -11,14 +11,14 @@ import { IClient } from 'models/room.models';
   styleUrls: ['./room.component.scss']
 })
 export class RoomComponent implements OnInit {
+  public joinedRoom$: Observable<string>;
   public clients$: Observable<IClient[]>;
   public roomId: string;
-
-  joined;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private store: Store<AppState>) {
+    this.joinedRoom$ = this.store.select((store) => store.room.joinedRoom);
     this.clients$ = this.store.select((store) => store.room.clients);
   }
 

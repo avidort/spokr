@@ -20,7 +20,6 @@ function emitClients(roomId) {
     }));
 
     io.to(roomId).emit('connected-clients', connectedClients);
-    console.log(connectedClients);
   });
 }
 
@@ -47,6 +46,7 @@ io.on('connection', (socket) => {
 
     const room = getClientRooms(socket)[0];
     if (room) {
+      socket.leave(room);
       emitClients(room);
     }
   });

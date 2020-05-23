@@ -1,6 +1,6 @@
-<app-join-room *ngIf="!joined" [roomId]="roomId"></app-join-room>
+<app-join-room *ngIf="!(joinedRoom$ | async)" [roomId]="roomId"></app-join-room>
 
-<div *ngIf="joined">
+<div *ngIf="joinedRoom$ | async">
   <p>Inside room {{roomId}}</p>
 
   <ul>

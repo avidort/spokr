@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RoomService } from '../room.service';
 import { Router } from '@angular/router';
 
@@ -7,20 +7,20 @@ import { Router } from '@angular/router';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements OnInit {
-  value;
+export class MainComponent {
+  public createNickname: string;
+  public joinRoomId: string;
 
   constructor(private router: Router,
-    private roomService: RoomService) { }
-
-  ngOnInit(): void {
+    private roomService: RoomService) {
   }
 
   onCreate() {
-    this.roomService.connect(this.value);
+    this.roomService.connect(this.createNickname);
+    this.roomService.join(this.roomService.generateRoom());
+  }
 
-    const roomId = this.roomService.generateRoom();
-    this.router.navigate(['room', roomId])
-    this.roomService.join(roomId);
+  onJoin() {
+    this.router.navigate(['room', this.joinRoomId]);
   }
 }
