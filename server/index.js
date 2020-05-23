@@ -2,20 +2,35 @@ const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
+const nicknameMap = {};
+
 app.get('/', (req, res) => {
   res.send('Hello world');
 });
 
 function parseId(socket) {
-  return `${socket.nickname} (${socket.id})`;
+  return `${nicknameMap[socket.id]} (${socket.id})`;
+}
+
+function emitClients() {
+  io.clients((e, clients) => {
+    const connectedClients = clients.map((_) => ({
+      id: _,
+      nickname: nicknameMap[_]
+    }));
+
+    io.emit('connected-clients', connectedClients);
+    console.log(connectedClients);
+  });
 }
 
 io.on('connection', (socket) => {
-  console.log('incoming connection', socket.id);
+  console.log('Incoming connection', socket.id);
 
   socket.on('register', (nickname) => {
-    socket.nickname = nickname;
-    console.log('register', socket.nickname);
+    nicknameMap[socket.id] = nickname;
+    console.log('register', nickname);
+    emitClients();
   });
 
   socket.on('join', (room) => {
@@ -24,7 +39,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    console.log('client disconnected', socket.id, socket.nickname);
+    console.log('Client disconnected', parseId(socket));
   });
 });
 
